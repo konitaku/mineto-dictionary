@@ -282,6 +282,7 @@ span.toggler-icon.show::after {
 
 .search-area-input {
     border: none;
+    outline: none;
 }
 
 .search-area-input:focus-visible {
@@ -332,6 +333,7 @@ span.toggler-icon.show::after {
 
 .main-search-area__input {
     border: none;
+    outline: none;
 }
 
 .main-search-area__input:focus-visible {
