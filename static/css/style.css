@@ -145,7 +145,7 @@ span.toggler-icon {
     /* background-color: transparent; */
     border-radius: 2000px;
     transform: translateY(-1.5px);
-    transition: transform .3s linear;
+    transition: all .3s linear;
     z-index: 10;
 }
 
