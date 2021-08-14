@@ -254,7 +254,7 @@ span.toggler-icon.show::after {
 .search-area-nav__container {
     position: absolute;
     width: 100vw;
-    padding: .5rem 1.5rem;
+    padding: 1rem 1.5rem .5rem;
     background-color: var(--main-color);
     left: 0;
     right: 0;
@@ -266,7 +266,7 @@ span.toggler-icon.show::after {
 }
 
 .search-area-nav__container.show {
-    transform: translateY(3.375rem);
+    transform: translateY(3.875rem);
 }
 
 .search-area-nav {
