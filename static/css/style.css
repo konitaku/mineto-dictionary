@@ -685,6 +685,7 @@ section>.line {
     scroll-snap-type: x mandatory;
     position: relative;
     transition: all .2s ease-in-out;
+    min-height: 50vh;
 }
 
 .user-info__m-scroll-snapping-container>div {
