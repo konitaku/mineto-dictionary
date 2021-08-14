@@ -18,6 +18,9 @@
     <!-- Fontawesome CSS -->
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!--  Favicons  -->
+    <link rel="icon" href="{{url_for('static', filename='image/favicon.ico') }}" id="favicon">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='image/apple-touch-icon-180x180.png') }}">
     {% endblock %}
 </head>
 
