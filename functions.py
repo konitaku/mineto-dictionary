@@ -1,4 +1,4 @@
-# import re
+import re
 from mineto import db, Tag, TagController, Article, LikeLog, EditorLog
 from datetime import datetime, timedelta
 from flask import request
@@ -7,6 +7,8 @@ from flask_login import current_user
 
 def body_to_description(body: str) -> str:
     try:
+        p = re.compile(r"<[^>]*?>")
+        final_result = p.sub("", body)
         # pタグから始まる文字列を取得
         # x = re.search(r'<p>(.*)', body, flags=re.DOTALL)
         # result = body[x.span()[0] + 3: x.span()[1]]
@@ -15,7 +17,7 @@ def body_to_description(body: str) -> str:
         # pの終了タグまででキリトリ
         # y = re.match(r'(.*)</p>', result, flags=re.DOTALL)
         # final_result = result[y.span()[0]: y.span()[1] - 4]
-        final_result = body
+        # final_result = body
     except AttributeError:
         final_result = ""
 
