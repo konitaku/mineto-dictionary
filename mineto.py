@@ -5,7 +5,7 @@ from flask_login import LoginManager, login_user, logout_user
 from forms import LoginForm, RegisterForm, ArticleForm, CommentForm
 from datamanager import create_get_db
 import os
-from functions import *
+
 
 # key = os.urandom(24)
 # print(key)
@@ -32,6 +32,7 @@ LikeLog = data_manager[4]
 Comment = data_manager[5]
 Tag = data_manager[6]
 TagController = data_manager[7]
+from functions import *
 
 
 @login_manager.user_loader
