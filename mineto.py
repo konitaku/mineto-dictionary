@@ -1,9 +1,10 @@
-from flask import Flask, render_template, redirect, url_for, flash
+from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_bootstrap import Bootstrap
 from flask_ckeditor import CKEditor
-from flask_login import LoginManager, login_user, logout_user
+from flask_login import LoginManager, login_user, logout_user, current_user
 from forms import LoginForm, RegisterForm, ArticleForm, CommentForm
 from datamanager import create_get_db
+from datetime import timedelta
 import os
 
 
@@ -32,7 +33,6 @@ LikeLog = data_manager[4]
 Comment = data_manager[5]
 Tag = data_manager[6]
 TagController = data_manager[7]
-from functions import *
 
 
 @login_manager.user_loader
@@ -48,6 +48,7 @@ def home():
 
 @app.route("/search", methods=["post", "get"])
 def search():
+    from functions import body_to_description
     if request.method == "POST":
         search_word__list = request.form.get("search").split()
         result__list = []
@@ -81,6 +82,7 @@ def search():
 
 @app.route("/tag-search/<tag_id>")
 def tag_search(tag_id):
+    from functions import body_to_description
     target_tag = Tag.query.get(tag_id)
     if target_tag:
         tags = TagController.query.filter_by(tag_id=tag_id).all()
@@ -101,6 +103,7 @@ def tag_search(tag_id):
 
 @app.route("/article/<article_id>", methods=["post", "get"])
 def article(article_id):
+    from functions import liked_or_not, calc__updated_time, make_edit_log_sorted_by_latest_date, translate_log_to_date
     form = CommentForm()
     if form.validate_on_submit():
         if current_user.is_authenticated:
@@ -156,6 +159,7 @@ def edit_comment(comment_id):
 
 @app.route("/like-count/<article_id>", methods=["POST", "GET"])
 def js_like_count(article_id):
+    from functions import get__ip_address
     if request.method == "POST":
         if current_user.is_authenticated:
             current_like_log = LikeLog.query.filter(
@@ -284,6 +288,7 @@ def logout():
 
 @app.route("/create-article", methods=["post", "get"])
 def create_article():
+    from functions import register_tags_to_db
     form = ArticleForm()
     if request.method == "POST" and form.validate_on_submit():
         # # h1, h2 タグを h3 タグに置き換え
@@ -332,6 +337,7 @@ def create_article():
 
 @app.route("/edit-article/<article_id>", methods=["post", "get"])
 def edit_article(article_id):
+    from functions import register_tags_to_db
     # 編集対象の記事をデータベースから取得
     target_article = Article.query.get(article_id)
     print(target_article)
@@ -407,6 +413,7 @@ def edit_article(article_id):
 
 @app.route("/user/<user_info>")
 def user_data(user_info):
+    from functions import body_to_description
     user = User.query.get(user_info)
     if user:
         print(user)
