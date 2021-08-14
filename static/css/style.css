@@ -266,7 +266,7 @@ span.toggler-icon.show::after {
 }
 
 .search-area-nav__container.show {
-    transform: translateY(46px);
+    transform: translateY(2.875rem);
 }
 
 .search-area-nav {
