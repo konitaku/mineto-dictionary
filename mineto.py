@@ -15,7 +15,8 @@ if DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://")
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = '\xc0\xa9\x18\xfaTT1\xb4\x90\xaam2>\xa8/\x7fM\x88\xda\xf7\x07\x81g"'
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY",
+                                          '\xc0\xa9\x18\xfaTT1\xb4\x90\xaam2>\xa8/\x7fM\x88\xda\xf7\x07\x81g"')
 app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 Bootstrap(app)
