@@ -190,7 +190,7 @@ span.toggler-icon::after {
 }
 
 span.toggler-icon.show {
-    transform: rotate(-180deg);
+    transform: rotate(170deg);
     background-color: transparent;
 }
 
@@ -201,11 +201,11 @@ span.toggler-icon.show {
 } */
 /*////////////////////////////////////////*/
 span.toggler-icon.show::before {
-    transform: rotate(-225deg);
+    transform: rotate(55deg);
 }
 
 span.toggler-icon.show::after {
-    transform: rotate(-315deg);
+    transform: rotate(145deg);
 }
 
 /* ナビの箱 */
