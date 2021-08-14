@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}{% if is_edit %}編集{% else %}新規記事作成{% endif %}{% endblock%}
+{% block head %}
+
+<script src="https://unpkg.com/@yaireo/tagify"></script>
+<script src="https://unpkg.com/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+<link href="https://unpkg.com/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+{{ super() }}
+{% endblock %}
+
+{% block nav_bar %}
+{{ super() }}
+
+{% if not current_user.is_authenticated %}
+<!-- フルスクリーンモーダル -->
+<div id="myModal" class="my-modal">
+    <div id="closeBtn" class="close-btn fal fa-times JS__checked-or-no">
+    </div>
+    <div class="container-fluid">
+        <div class="container-inner">
+
+            <div class="my-modal__inner">
+                <h3 class="my-modal__heading">警告：あなたはログインしていません。</h3>
+                <p class="my-modal__description">
+                    このまま投稿すると、あなたのIPアドレスが公開されます。ログインまたはアカウント作成することで、
+                    IPアドレスの代わりにユーザー名が公開され、投稿がアカウントに紐づけられるなどの利点があります。
+                </p>
+                <a id="continueEditBtn" href="#" class="btn button my-modal__btn btn-orange JS__checked-or-no">ログインせずに編集</a>
+                {% if is_edit %}
+                {% set next_url = "edit_article" %}
+                {% else %}
+                {% set next_url = "create_article" %}
+                {% set article_id = 0 %}
+                {% endif %}
+                <a href="{{ url_for('login_with_next', next_url=next_url, article_id=article_id)}}" class="btn button my-modal__btn JS__checked-or-no">ログイン</a>
+                <a href="{{ url_for('register_with_next', next_url=next_url, article_id=article_id) }}" class="btn button my-modal__btn JS__checked-or-no">アカウント作成</a>
+                <label class="never-show__label" for="neverShow">
+                    <input id="neverShow" type="checkbox">
+                    今後1ヶ月この警告を表示しない
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block contents %}
+<div class="container-fluid">
+    <div class="container-inner">
+        <section>
+            <header class="section-header">
+                <h2 class="page-heading">{% if is_edit %}編集{% else %}新規記事作成{% endif %}</h2>
+                <div class="line__left">
+                </div>
+            </header>
+            {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "success"}) }}
+        </section>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script>
+<script type="text/javascript">
+    // {% if not is_edit %}
+    document.querySelector("body > main > div > div > section > form > div:nth-child(6)").style.display = "none";
+    //{% endif %}
+    var input = document.getElementById('tagsInput'),
+        // init Tagify script on the above inputs
+        tagify = new Tagify(input, {
+            whitelist: {{all_tag_name | safe}},
+            blacklist: [],
+            // アウトプットされる値の形を変更「JSON　→　CSV」
+            originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(','),
+            editTags: 1,
+            dropdown: {
+                classname: "color-blue",
+                enabled: 1, // show the dropdown immediately on focus = 0
+                // maxItems: 5,
+                position: "text", // place the dropdown near the typed text
+                // closeOnSelect: false, // keep the dropdown open after selecting a suggestion
+                highlightFirst: true, // 候補の一番上をフォーカスする
+            }
+        });
+
+    // "remove all tags" button event listener
+    // document.getElementById('removeAllBtn').addEventListener('click', tagify.removeAllTags.bind(tagify))
+
+    tagify.on('add', resetInputArea);
+
+    function resetInputArea() {
+        setTimeout(
+            function() {
+                document.querySelector("span.tagify__input").textContent = ""
+            }, 1);
+    }
+
+    // Chainable event listeners
+    // tagify.on('add', onAddTag)
+    //     .on('remove', onRemoveTag)
+    //     .on('invalid', onInvalidTag);
+
+    // tag added callback
+    // function onAddTag(e) {
+    //     console.log(e, e.detail);
+    //     console.log(tagify.DOM.originalInput.value)
+    //     tagify.off('add', onAddTag) // exmaple of removing a custom Tagify event
+    // }
+
+    // tag remvoed callback
+    // function onRemoveTag(e) {
+    //     console.log(e, e.detail);
+    // }
+
+    // invalid tag added callback
+    // function onInvalidTag(e) {
+    //     console.log(e, e.detail);
+    // }
+
+    ///////////////////////////// モーダル関係の処理 //////////////////////////////////
+    // もしmyModalがあったら以下の処理を実行
+    if ($("#myModal")) {
+        //cookieの値がonじゃなかったらモーダルを表示させる
+        if ($.cookie('modalNeverShow') == 'on') {
+            $('#myModal').css("display", "none");
+        } else {
+            $('#myModal').css("display", "block");
+        }
+        $(document).ready(function() {
+            ////////////////////開発時チェック用///////////////////
+            // ページ表示後に前回のCookieを削除
+            $.removeCookie("modalNeverShow", {path: '/'});
+            /////////////////////////////////////////////////////
+
+            // モーダル内のボタンがなにかしら押されたら、非表示チェックボックスの真偽を判定
+            $(".JS__checked-or-no").click(function() {
+                //チェックされてたら
+                if ($("#neverShow").prop("checked") == true) {
+                    $.cookie('modalNeverShow', 'on', { //cookieにmodalNeverSHowという名前でonという値をセット
+                        expires: 30, //cookieの有効日数
+                        path: '/' //有効にするパス
+                    });
+                }
+            });
+        });
+
+        // 閉じるボタン、「ログインせず編集」が押されたら、モーダルを消す
+        $("#closeBtn").click(hideModal);
+        $("#continueEditBtn").click(hideModal);
+
+        function hideModal(){
+            $("#myModal").addClass("is-hidden");
+            setTimeout(function(){$("#myModal").css("display", "none")}, 200);
+        }
+    }
+
+</script>
+
+<!-- CKEditorの読み込み -->
+{{ ckeditor.load(pkg_type='basic') }}
+{{ ckeditor.config(name='body') }}
+{% endblock %}

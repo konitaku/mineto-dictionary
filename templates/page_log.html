@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}ページの編集履歴{% endblock%}
+{% block contents %}
+<section>
+    <div class="container-fluid">
+        <div class="container-inner">
+            <header class="section-header">
+                <div class="d-flex justify-content-between align-items-end">
+                    <h2 class="page-heading">
+                        このページの編集履歴
+                    </h2>
+                    <div class="d-flex align-items-end">
+                        <a href="{{url_for('article', article_id=article.id)}}" class="section-subheading">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th>ページ名: </th>
+                                        <td>{{article.title}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>履歴件数: </th>
+                                        <td>{{ article.editor_logs | length }}件</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </a>
+                    </div>
+
+                </div>
+                <div class="line__left"></div>
+            </header>
+        </div>
+    </div>
+    <!-- 一番古い履歴のdatetimeオブジェクトをcurrent_dateにセット -->
+    {% set ns = namespace( current_date=( article.editor_logs[0].date + timedelta(hours=9)).strftime('%Y/%m/%d') ) %}
+    <div class="page-log__date-box container-fluid">
+        {{ns.current_date}}
+    </div>
+    <div class="container-fluid">
+        <div class="container-inner">
+            <!-- 編集履歴でforループ開始 -->
+            {% for editor_log in article.editor_logs %}
+            <!-- 履歴の日付が変わった場合、日付の帯とコンテナーのdivタグを出力 -->
+            {% if (editor_log.date + timedelta(hours=9) ).strftime('%Y/%m/%d') != ns.current_date %}
+            {% set ns.current_date = (editor_log.date + timedelta(hours=9) ).strftime('%Y/%m/%d') %}
+        </div>
+    </div>
+    <div class="page-log__date-box container-fluid">
+        {{ns.current_date}}
+    </div>
+    <div class="container-fluid">
+        <div class="container-inner">
+            {% endif %}
+            <!-- 編集履歴の詳細データを出力 -->
+            <div class="page-log__logdata-container">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th class="page-log__time_display" rowspan="2">{{(editor_log.date + timedelta(hours=9)).strftime('%H:%M') }}</th>
+                            <td>
+                                {% if editor_log.user.name %}
+                                <a style="color: #000; text-decoration: underline;" href="{{url_for('user_data', user_info=editor_log.user.id)}}">
+                                    {{editor_log.user.name}}
+                                {% else %}
+                                <a style="color: #000; text-decoration: underline;" href="{{url_for('user_data', user_info=editor_log.editor_name)}}">
+                                {{editor_log.editor_name}}
+                                {% endif %}
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{{editor_log.edit_summary}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            {% endfor %}
+            <!-- forループ終了 -->
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+{% block footer %}
+<div class="latest-edit d-flex justify-content-between px-3 py-2 bg-green align-items-center">
+    <a href="{{url_for('article', article_id=article.id)}}" style="color: #000; font-size: .8rem;">&laquo; 記事ページへ戻る</a>
+</div>
+{{ super() }}
+{% endblock %}

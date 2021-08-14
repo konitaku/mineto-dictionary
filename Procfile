@@ -1,0 +1,1 @@
+web: gunicorn mineto:app --log-file -

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}ホーム{% endblock%}
+{% block contents %}
+
+<div class="container-fluid">
+    <div class="container-inner">
+        <section>
+            <div class="main-search-area__container">
+                <form action="{{ url_for('search') }}" method="post">
+                    <div id="mainSearchArea" class="main-search-area">
+                        <div class="main-search-area__inner">
+                            <input id="searchInputMain" class="main-search-area__input" type="text" name="search" placeholder="Mineto内を検索">
+                        </div>
+                        <input class="main-search-area__submit" type="submit" name="submit" value="検索">
+                    </div>
+                </form>
+            </div>
+            <div class="line">
+            </div>
+
+        </section>
+
+        <a class="button btn btn-orange" href="{{url_for('create_article')}}">新しい語句を登録する</a>
+
+        <a class="btn__view-all button btn btn-gray" href="{{url_for('search')}}">Mineto一覧を見る</a>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript">
+    // メイン検索ボックスの動き ///////////////////////////////////////////////
+    var searchInputMain = document.getElementById("searchInputMain"),
+        mainSearchArea = document.getElementById("mainSearchArea");
+    searchInputMain.onblur = function() {
+        mainSearchArea.classList.remove("active");
+    };
+    searchInputMain.onfocus = function() {
+        mainSearchArea.classList.add("active");
+    };
+    window.onload = setTimeout(function() {
+        searchInputMain.focus()
+    }, 100);
+</script>
+{% endblock %}

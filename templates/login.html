@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}ログイン{% endblock%}
+{% block contents %}
+<div class="container-fluid">
+    <div class="container-inner">
+        <section>
+            <header class="section-header">
+                <h2 class="page-heading">ログイン</h2>
+                <div class="line__left">
+                </div>
+            </header>
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <ul class="flashes">
+                {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+
+            <!-- Form -->
+            {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "success"}) }}
+            <a class="font__semi-small" href="{{ url_for('register') }}">アカウント登録がまだの方はこちら&raquo;</a>
+        </section>
+
+    </div>
+</div>
+{% endblock %}

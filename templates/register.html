@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}アカウント登録{% endblock%}
+{% block contents %}
+<div class="container-fluid">
+    <div class="container-inner">
+        <section>
+            <header class="section-header">
+                <h2 class="page-heading">アカウント登録</h2>
+                <div class="line__left">
+                </div>
+            </header>
+            {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "success"}) }}
+        </section>
+    </div>
+</div>
+{% endblock %}

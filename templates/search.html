@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}{{ search_word[8:] }} - 検索結果{% endblock%}
+{% block contents %}
+<div class="container-fluid">
+    <div class="container-inner">
+        <section>
+            <header class="section-header">
+                <div class="d-flex">
+                    <h2 class="page-heading">
+                        {{ search_word | safe }}
+                    </h2>
+                    <div class="d-flex align-items-end">
+                        {% set result_length = result__list | length %}
+                        <p class="section-subheading">（{{result_length}}件）</p>
+                    </div>
+
+                </div>
+                <div class="line__left"></div>
+            </header>
+            {% if result_length > 0 %}
+            {% for result in result__list %}
+            <a href="{{ url_for('article', article_id=result.id) }}" class="word-card card card-body">
+                <h3 class="word-card__heading">{{result.title}}</h3>
+                <div class="line__left"></div>
+                {% set body_length = body_to_description(result.body) | length %}
+                {% if body_length >= 50 %}
+                <div class="word-card__description">{{ body_to_description(result.body) | safe }} ...</div>
+                {% else %}
+                <div class="word-card__description">{{ body_to_description(result.body) | safe }}</div>
+                {% endif %}
+            </a>
+            {% endfor %}
+            {% else %}
+            <p class="user-info__not-found">{{ search_word | safe}}に該当する記事はありませんでした。</p>
+            {% endif %}
+        </section>
+    </div>
+</div>
+
+{% endblock %}
