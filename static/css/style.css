@@ -145,7 +145,7 @@ span.toggler-icon {
     /* background-color: transparent; */
     border-radius: 2000px;
     transform: translateY(-1.5px);
-    transition: all .3s ease-out;
+    transition: all .3s linear;
     z-index: 10;
 }
 
@@ -171,7 +171,7 @@ span.toggler-icon::before {
     background-color: var(--toggle-color);
     border-radius: 2000px;
     transform: translateY(-5px);
-    transition: all .3s ease-out;
+    transition: all .3s linear;
     z-index: 10;
 }
 
@@ -186,8 +186,7 @@ span.toggler-icon::after {
     border-radius: 2000px;
     transform: translateY(5px);
     z-index: 10;
-
-    transition: all .3s ease-out;
+    transition: all .3s linear;
 }
 
 span.toggler-icon.show {
