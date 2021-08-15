@@ -309,7 +309,7 @@ span.toggler-icon.show::after {
 /* ////////////////////////// メインページ ////////////////////////////// */
 .main-search-area__container {
     padding: 1rem 0;
-    height: calc(100vh - 15rem);
+    height: calc(100vh - 25rem);
 }
 
 .main-search-area {
@@ -320,7 +320,7 @@ span.toggler-icon.show::after {
     padding-left: 1.5rem;
     border-radius: 50px;
     border: 1px solid #ececec;
-    margin: calc((100vh - 20rem)/2) auto;
+    margin: calc((100vh - 30rem)/2) auto;
 }
 
 .main-search-area__inner {
