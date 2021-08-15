@@ -9,6 +9,8 @@
     --toggle-color: #212529;
     --main-color: #fff;
     --sub-color-orange: #f5a500;
+    --link_color: #36c;
+    --link-visited__color: #1a0dab;
 }
 
 html {
@@ -101,6 +103,18 @@ footer {
 .word-card__description {
     font-size: .8rem;
     padding-top: .5rem;
+}
+
+#section__search-result .word-card__heading {
+    color: var(--link_color);
+    padding: .25rem;
+}
+
+#section__search-result .word-card__heading:hover {
+    text-decoration: underline;
+}
+#section__search-result .word-card:visited .word-card__heading {
+    color: var(--link-visited__color);
 }
 
 /* /////////////////////////// HEADER /////////////////////////////////// */
@@ -423,6 +437,7 @@ section>.line {
 .article-body ol {
     list-style: decimal;
 }
+
 .article-body ul {
     list-style: disc;
 }
