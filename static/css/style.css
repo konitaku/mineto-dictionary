@@ -10,7 +10,8 @@
     --main-color: #fff;
     --sub-color-orange: #f5a500;
     --link_color: #36c;
-    --link-visited__color: #1a0dab;
+    /* --link-visited__color: #1a0dab; */
+    --link-visited__color: #512D6D;
 }
 
 html {
@@ -423,7 +424,7 @@ section>.line {
 .article-body a {
     /* color: #1a0dab;
     color: #0066c0; */
-    color: #36c;
+    color: var(--link_color);
 }
 
 .article-body a:hover {
@@ -431,7 +432,7 @@ section>.line {
 }
 
 .article-body a:visited {
-    color: #1a0dab;
+    color: var(--link-visited__color);
 }
 
 .article-body ol {
