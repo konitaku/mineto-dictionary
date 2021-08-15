@@ -397,12 +397,13 @@ section>.line {
 }
 
 .article-body {
-    padding: 0 0 .5rem;
+    padding: 0 .5rem .5rem;
 }
 
 .article-body>* {
     font-size: .875rem;
     line-height: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .article-body a {
@@ -417,6 +418,17 @@ section>.line {
 
 .article-body a:visited {
     color: #1a0dab;
+}
+
+.article-body ol {
+    list-style: decimal;
+}
+.article-body ul {
+    list-style: disc;
+}
+
+.article-body ul, .article-body ol {
+    padding-left: 2rem;
 }
 
 #section__comment-form * {
