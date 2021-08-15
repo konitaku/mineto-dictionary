@@ -59,12 +59,16 @@
                             </div>
                         </li>
                         {% endif %}
-                        <!-- <li class="global-nav__list-item">
-                            <a href="{{url_for('search')}}">Mineto一覧を見る</a>
+                        <li class="global-nav__list-item">
+                            <a href="{{url_for('create_article')}}">新しい語句を登録</a>
                             <div class="line__left">
                             </div>
-                        </li> -->
-
+                        </li>
+                        <li class="global-nav__list-item">
+                            <a href="{{url_for('search')}}">Mineto内一覧</a>
+                            <div class="line__left">
+                            </div>
+                        </li>
                         {% if current_user.is_authenticated %}
                         <!-- <li class="global-nav__list-item">
                             <a href="#">メールアドレスの変更</a>
