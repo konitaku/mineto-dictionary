@@ -405,6 +405,20 @@ section>.line {
     line-height: 1.5rem;
 }
 
+.article-body a {
+    /* color: #1a0dab;
+    color: #0066c0; */
+    color: #36c;
+}
+
+.article-body a:hover {
+    text-decoration: underline;
+}
+
+.article-body a:visited {
+    color: #1a0dab;
+}
+
 #section__comment-form * {
     padding-left: 0;
     padding-right: 0;
@@ -538,7 +552,8 @@ section>.line {
     padding: .5rem;
     margin-top: 3rem;
 }
-.modal__delete_comment_inner>div>div:last-child{
+
+.modal__delete_comment_inner>div>div:last-child {
     border-left: none;
 }
 
