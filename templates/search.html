@@ -24,9 +24,9 @@
                 <div class="line__left"></div>
                 {% set body_length = body_to_description(result.body) | length %}
                 {% if body_length >= 50 %}
-                <div class="word-card__description">{{ body_to_description(result.body)}} ...</div>
+                <div class="word-card__description">{{ body_to_description(result.body) | safe}} ...</div>
                 {% else %}
-                <div class="word-card__description">{{ body_to_description(result.body)}}</div>
+                <div class="word-card__description">{{ body_to_description(result.body) | safe }}</div>
                 {% endif %}
             </a>
             {% endfor %}
